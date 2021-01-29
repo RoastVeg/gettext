@@ -37,7 +37,7 @@ __RCSID("$NetBSD: gettext.c,v 1.3 2015/07/12 11:40:52 christos Exp $");
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <util.h>
+//#include <util.h>
 
 static struct option longopts[] = {
 	{ "help",       no_argument,        NULL,   'h' },
@@ -152,7 +152,7 @@ main(int argc, char **argv)
 	{
 		switch (ch) {
 		case 'd':
-			msgdomain = estrdup(optarg);
+			msgdomain = strdup(optarg);
 			break;
 		case 'E':
 			/* GNU gettext compat */
@@ -190,7 +190,7 @@ main(int argc, char **argv)
 	if (!sflag) {
 		if (argc == 2) {
 			free(msgdomain);
-			msgdomain = estrdup(argv[0]);
+			msgdomain = strdup(argv[0]);
 
 			argc -= 1;
 			argv += 1;
@@ -203,12 +203,12 @@ main(int argc, char **argv)
 	/* msgdomain can be passed as env var */
 	if (msgdomain == NULL) {
 		if ((s = getenv("TEXTDOMAIN")) != NULL)
-			msgdomain = estrdup(s);
+			msgdomain = strdup(s);
 	}
 
 	if (msgdomain != NULL) {
 		if ((s = getenv("TEXTDOMAINDIR")) != NULL)
-			msgdomaindir = estrdup(s);
+			msgdomaindir = strdup(s);
 		if (msgdomaindir)
 			bindtextdomain(msgdomain, msgdomaindir);
 	}
